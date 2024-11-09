@@ -65,18 +65,12 @@ public class OrderPageTest extends BaseUITest {
         objMainPage.clickCookieAcceptButton();
 
         //Для кого самокат
-        new WebDriverWait(driver, 1)
-                .until(ExpectedConditions.visibilityOfElementLocated(objOrderPage.getOrderAboutUserLabel()));
         objOrderPage.addUserInfoInOrder(userName, userSurname, address, subwayStation, userPhone);
 
         //Про аренду
-        new WebDriverWait(driver, 1)
-                .until(ExpectedConditions.visibilityOfElementLocated(objOrderPage.getOrderAboutRentingLabel()));
         objOrderPage.addRentingInfoInOrder(rentalStartDate, rentalPeriod, scooterColor, comment);
 
         //Подтверждение заказа
-        new WebDriverWait(driver, 1)
-                .until(ExpectedConditions.visibilityOfElementLocated(objOrderPage.getOrderConfirmationLabel()));
         objOrderPage.clickOrderConfirmationButton();
 
         //Заказ подтвержден

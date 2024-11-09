@@ -3,6 +3,8 @@ package pageobject;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class OrderPage {
 
@@ -112,11 +114,15 @@ public class OrderPage {
 
     //Метод проверки подтверждения заказа
     public By getOrderConfirmedLabel() {
+        new WebDriverWait(driver, 1)
+                .until(ExpectedConditions.visibilityOfElementLocated(getOrderConfirmationLabel()));
         return orderOrderConfirmedLabel;
     }
 
     //Заполнение формы "Для кого самокат"
     public void addUserInfoInOrder(String userName, String userSurname, String address, String subwayStation, String phone) {
+        new WebDriverWait(driver, 1)
+                .until(ExpectedConditions.visibilityOfElementLocated(getOrderAboutUserLabel()));
         setOrderUserName(userName);
         setOrderUserSurname(userSurname);
         setOrderAddress(address);
@@ -127,6 +133,8 @@ public class OrderPage {
 
     //Заполнение формы "Про аренду"
     public void addRentingInfoInOrder(String startDate, String rentalPeriod, String scooterColor, String comment) {
+        new WebDriverWait(driver, 1)
+                .until(ExpectedConditions.visibilityOfElementLocated(getOrderAboutRentingLabel()));
         setOrderStartDate(startDate);
         setOrderRentalPeriod(rentalPeriod);
         setOrderScooterColor(scooterColor);
