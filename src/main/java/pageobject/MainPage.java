@@ -9,7 +9,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class MainPage {
 
-    private WebDriver driver;
+    private final WebDriver driver;
 
     //Локатор для кнопки согласия с куками
     private final By cookieAcceptButton = By.xpath(".//button[@class='App_CookieButton__3cvqF']");
@@ -23,7 +23,7 @@ public class MainPage {
     private final static String faqQuestionPattern = ".//div[text()='%s']";
 
     //раскрытый ответ
-    private By OpenedAnswer = By.xpath(".//div[contains(@class, 'accordion__panel') and not(@hidden)]/p");
+    private final By OpenedAnswer = By.xpath(".//div[contains(@class, 'accordion__panel') and not(@hidden)]/p");
 
     public MainPage(WebDriver driver){
         this.driver = driver;

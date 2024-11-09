@@ -4,9 +4,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
 public class OrderIsProcessed {
-    private WebDriver driver;
+    private final WebDriver driver;
     //Локатор поля Заказ оформлен
-    private By orderIsProcessed = By.xpath("//div[text()='Заказ оформлен']");
+    private final By orderIsProcessed = By.xpath("//div[text()='Заказ оформлен']");
 
     public OrderIsProcessed(WebDriver driver) {
 
