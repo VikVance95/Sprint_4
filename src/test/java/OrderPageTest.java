@@ -1,24 +1,21 @@
-import org.example.pageobject.MainPage;
-import org.example.pageobject.OrderPage;
-
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import pageobject.MainPage;
+import pageobject.OrderIsProcessed;
+import pageobject.OrderPage;
+
+
+import static org.junit.Assert.assertTrue;
 
 
 @RunWith(Parameterized.class)
+public class OrderPageTest extends BaseUITest {
 
-public class OrderPageTest {
-
-    private WebDriver driver;
     private final int orderButtonPlace; //1-кнопка заказа вверху, 2-кнопка заказа внизу
+
     private final String userName;
     private final String userSurname;
     private final String address;
@@ -30,8 +27,8 @@ public class OrderPageTest {
     private final String comment;
 
     public OrderPageTest(int orderButtonPlace, String userName, String userSurname, String address,
-                            String subwayStation, String userPhone, String rentalStartDate, String rentalPeriod,
-                            String scooterColor, String comment){
+                         String subwayStation, String userPhone, String rentalStartDate, String rentalPeriod,
+                         String scooterColor, String comment){
         this.orderButtonPlace = orderButtonPlace;
         this.userName = userName;
         this.userSurname = userSurname;
@@ -52,29 +49,17 @@ public class OrderPageTest {
         };
     }
 
-    public void initChrome() {
-        ChromeOptions options = new ChromeOptions();
-        driver = new ChromeDriver(options);
-    }
-
-    @Before
-    public void startUp() {
-        initChrome();
-    }
-
     @Test
-    public void checkPlacingOrder() {
-        driver = new ChromeDriver();
-        driver.get("https://qa-scooter.praktikum-services.ru/");
+    public void checkPlacingOrderTest() {
 
         MainPage objMainPage = new MainPage(driver);
         OrderPage objOrderPage = new OrderPage(driver);
 
         //Клик по кнопке заказа
         switch (orderButtonPlace) {
-            case 1: objMainPage.clickOrderUpperButton();
+            case 1: objMainPage.clickUpperOrderButton();
                 break;
-            case 2: objMainPage.clickOrderLowerButton();
+            case 2: objMainPage.clickLowerOrderButton();
                 break;
         }
         objMainPage.clickCookieAcceptButton();
@@ -97,10 +82,8 @@ public class OrderPageTest {
         //Заказ подтвержден
         new WebDriverWait(driver, 1)
                 .until(ExpectedConditions.visibilityOfElementLocated(objOrderPage.getOrderConfirmedLabel()));
-    }
-
-    @After
-    public void tearDown() {
-        driver.quit();
+        OrderIsProcessed objOrderIsProcessed = new OrderIsProcessed(driver);
+        //Проверка, что поле "Заказ оформлен". В приложении есть баг, который не даёт оформить заказ. Он воспроизводится только в Chrome
+        assertTrue(objOrderIsProcessed.orderIsProcessedTextIsDisplayed());
     }
 }

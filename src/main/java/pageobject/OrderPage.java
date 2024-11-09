@@ -1,33 +1,46 @@
-package org.example.pageobject;
+package pageobject;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
-
 
 public class OrderPage {
 
     private final WebDriver driver;
 
     //Локаторы полей данных пользователя в форме "Для кого самокат"
+    //Локатор заголовка формы "Для кого самокат"
     private final By orderAboutUserLabel = By.xpath(".//div[text() = 'Для кого самокат']");
+    //Локатор для поля "Имя"
     private final By orderUserNameField = By.xpath(".//input[@placeholder='* Имя']");
+    //Локатор для поля "Фамилия"
     private final By orderUserSurnameField = By.xpath(".//input[@placeholder='* Фамилия']");
+    //Локатор для поля "Адрес"
     private final By orderAddressField = By.xpath(".//input[@placeholder='* Адрес: куда привезти заказ']");
+    //Локатор для поля "Станция метро"
     private final By orderSubwayStationField = By.xpath(".//input[@placeholder='* Станция метро']");
+    //Локатор для поля "Телефон"
     private final By orderUserPhoneField = By.xpath(".//input[@placeholder='* Телефон: на него позвонит курьер']");
+    //Локатор для кнопки "Далее"
     private final By orderMoveToRentingInfoButton = By.xpath(".//button[text() = 'Далее']");
 
     //Локаторы полей в форме "Про аренду"
+    //Локатор заголовка формы "Про аренду"
     private final By orderAboutRentingLabel = By.xpath(".//div[text() = 'Про аренду']");
+    //Локатор для поля "Когда привезти самокат"
     private final By orderRentalStartDateField = By.xpath(".//input[@placeholder='* Когда привезти самокат']");
+    //Локатор для поля "Срок аренды"
     private final By orderRentalPeriodField = By.className("Dropdown-placeholder");
+    //Локатор для чекбокса "Цвет самоката"
     private final By orderScooterColorField = By.className("Checkbox_Input__14A2w");
+    //Локатор для поля "Комментарий"
     private final By orderCommentField = By.xpath(".//input[@placeholder='Комментарий для курьера']");
+    //Локатор для кнопки "Заказать"
     private final By orderMoveToConfirmOrderButton = By.xpath(".//div[@class='Order_Buttons__1xGrp']/button[text() = 'Заказать']");
 
     //Локаторы окна "Хотите оформить заказ?"
     private final By orderConfirmationLabel = By.xpath(".//div[text() = 'Хотите оформить заказ?']");
+    //Локатор для кнопки "Да" в окне "Хотите оформить заказ?"
     private final By orderConfirmationButton = By.xpath(".//button[text() = 'Да']");
 
     //Локатор окна "Заказ оформлен"
@@ -120,4 +133,5 @@ public class OrderPage {
         setOrderComment(comment);
         clickMoveToConfirmationOrderButton();
     }
+
 }

@@ -1,79 +1,49 @@
-import org.example.pageobject.MainPage;
-
-import org.hamcrest.MatcherAssert;
-import static org.hamcrest.CoreMatchers.containsString;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.assertEquals;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
+import pageobject.MainPage;
 
+import static org.junit.Assert.assertEquals;
+import static pageobject.constants.MainPageConstants.*;
 
 @RunWith(Parameterized.class)
-public class MainPageFaqTest {
+public class MainPageFaqTest extends BaseUITest {
 
-    private WebDriver driver;
+    private final String questionFAQ;
+    private final String answerFAQ;
 
-    private final String faqAccordionItemId;
-    private final boolean faqAccordionItemPanelHiddenExpected; //true - element is hidden, false - element isn't hidden
-    private final String faqAccordionItemPanelTextExpected;
-
-
-    public MainPageFaqTest(String faqAccordionItemId, boolean faqAccordionItemPanelHiddenExpected, String faqAccordionItemPanelTextExpected) {
-        this.faqAccordionItemId = faqAccordionItemId;
-        this.faqAccordionItemPanelHiddenExpected = faqAccordionItemPanelHiddenExpected;
-        this.faqAccordionItemPanelTextExpected = faqAccordionItemPanelTextExpected;
+    public MainPageFaqTest(String questionFAQ, String answerFAQ) {
+        this.questionFAQ = questionFAQ;
+        this.answerFAQ = answerFAQ;
     }
 
     @Parameterized.Parameters
 
-    public static Object[][] getInputData() {
-        return new Object[][] {
-                {"accordion__heading-0", false, "Сутки — 400 рублей. Оплата курьеру — наличными или картой."},
-                {"accordion__heading-3", false, "Только начиная с завтрашнего дня. Но скоро станем расторопнее."},
+    public static Object[][] checkFAQAnswerTest() {
+        return new Object[][]{
+                {QUESTION_HOW_MUCH_COSTS, ANSWER_HOW_MUCH_COSTS},
+                {QUESTION_WANT_SOME_SCOOTERS, ANSWER_WANT_SOME_SCOOTERS},
+                {QUESTION_CALC_RENT_TIME, ANSWER_CALC_RENT_TIME},
+                {QUESTION_ORDER_TODAY, ANSWER_ORDER_TODAY},
+                {QUESTION_EXTEND_RETURN_EARLIER, ANSWER_EXTEND_RETURN_EARLIER},
+                {QUESTION_CHARGING_TOGETHER, ANSWER_CHARGING_TOGETHER},
+                {QUESTION_CANCEL_ORDER, ANSWER_CANCEL_ORDER},
+                {QUESTION_DELIVER_OUTSIDE_MRR, ANSWER_DELIVER_OUTSIDE_MRR},
+
         };
     }
 
-    public void initChrome() {
-        ChromeOptions options = new ChromeOptions();
-        driver = new ChromeDriver(options);
-    }
-
-    @Before
-    public void startUp() {
-        initChrome();
-    }
 
     @Test
-    public void checkAccordionExpand() {
-        driver = new ChromeDriver();
-        driver.get("https://qa-scooter.praktikum-services.ru/");
 
-        MainPage objMainPage = new MainPage(driver, faqAccordionItemId);
-
-        //Куки
-        objMainPage.clickCookieAcceptButton();
-
-        //Переход к блоку с вопросами + клик
-        objMainPage.clickFaqAccordionItemHeading();
-
-        //Проверка видимости блока
-        WebElement element = objMainPage.getFaqAccordionItemPanel();
-        boolean visibleActual = Boolean.parseBoolean(element.getAttribute("hidden"));
-        assertEquals(visibleActual, faqAccordionItemPanelHiddenExpected);
-
-        //Проверка текста
-        String textActual = objMainPage.getFaqAccordionItemPanelText().getText();
-        MatcherAssert.assertThat(textActual, containsString(faqAccordionItemPanelTextExpected));
-    }
-
-    @After
-    public void tearDown() {
-        driver.quit();
+    public void isAnswerOpenedTest() {
+        MainPage objMainPage = new MainPage(driver);
+        objMainPage.scrollToElement(questionFAQ);
+        objMainPage.isEnabledQuestionButton(questionFAQ);
+        objMainPage.clickFAQQuestionButton(questionFAQ);
+        objMainPage.isAnswerVisible();
+        String actAnswersText = objMainPage.getAnswersText();
+        String expAnswerText = answerFAQ;
+        assertEquals("Текст ответа не совпадает с ожидаемым", expAnswerText, actAnswersText);
     }
 }
